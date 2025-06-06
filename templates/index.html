@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basketball Stats Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            margin-bottom: 10px;
+        }
+        .stat-counter {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .stat-counter label {
+            margin-right: 10px;
+        }
+        .stat-value {
+            margin-right: 10px;
+        }
+        .button-group {
+            margin-top: 10px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: calc(50% - 10px);
+            padding: 8px;
+            box-sizing: border-box;
+            margin-right: 10px;
+        }
+        .input-group .btn-container {
+            display: flex;
+            align-items: center;
+        }
+        .input-group .btn-container button {
+            margin-left: 10px;
+        }
+        .report-container {
+            margin-top: 20px;
+        }
+        .loading-indicator {
+            display: none;
+        }
+        .timer-controls button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Basketball Stats Tracker</h1>
+
+        <!-- Live Stats Section -->
+        <div class="section">
+            <h2>Live Stats</h2>
+
+            <div class="stat-counter">
+                <div class="stat-value" id="totalPoints">Total Points: 0</div>
+            </div>
+
+            <div class="stat-counter">
+                <div class="stat-value" id="freeThrowsStats">Free Throws: 0 Made / 0 Total</div>
+                <button id="free-throw-make">Make Free Throw</button>
+                <button id="free-throw-miss">Miss Free Throw</button>
+            </div>
+
+            <div class="stat-counter">
+                <div class="stat-value" id="twoPointersStats">Two Pointers: 0 Made / 0 Total</div>
+                <button id="two-pointer-make">Make Two Pointer</button>
+                <button id="two-pointer-miss">Miss Two Pointer</button>
+            </div>
+
+            <div class="stat-counter">
+                <div class="stat-value" id="threePointersStats">Three Pointers: 0 Made / 0 Total</div>
+                <button id="three-pointer-make">Make Three Pointer</button>
+                <button id="three-pointer-miss">Miss Three Pointer</button>
+            </div>
+
+            <div class="stat-counter">
+                <div class="stat-value" id="steals">Steals: 0</div>
+                <button id="steal">Steal</button>
+            </div>
+
+            <div class="stat-counter">
+                <div class="stat-value" id="blocks">Blocks: 0</div>
+                <button id="block">Block</button>
+            </div>
+
+            <div class="stat-counter">
+                <div class="stat-value" id="turnovers">Turnovers: 0</div>
+                <button id="turnover">Turnover</button>
+            </div>
+
+            <div class="stat-counter">
+                <div class="stat-value" id="timer">Total Time Played: 00:00</div>
+                <div class="timer-controls">
+                    <button id="startTimer">Start</button>
+                    <button id="pauseTimer">Pause</button>
+                    <button id="resetTimer">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update Statistics Manually Section -->
+        <div class="section">
+            <h2>Update Statistics Manually</h2>
+
+            <div class="input-group">
+                <label for="manualFreeThrowsMade">Free Throws Made:</label>
+                <input type="number" id="manualFreeThrowsMade">
+                <label for="manualFreeThrowsAttempted">Free Throws Attempted:</label>
+                <input type="number" id="manualFreeThrowsAttempted">
+                <div class="btn-container">
+                    <button id="updateFreeThrows">Update Free Throws</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="manualTwoPointersMade">Two Pointers Made:</label>
+                <input type="number" id="manualTwoPointersMade">
+                <label for="manualTwoPointersAttempted">Two Pointers Attempted:</label>
+                <input type="number" id="manualTwoPointersAttempted">
+                <div class="btn-container">
+                    <button id="updateTwoPointers">Update Two Pointers</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="manualThreePointersMade">Three Pointers Made:</label>
+                <input type="number" id="manualThreePointersMade">
+                <label for="manualThreePointersAttempted">Three Pointers Attempted:</label>
+                <input type="number" id="manualThreePointersAttempted">
+                <div class="btn-container">
+                    <button id="updateThreePointers">Update Three Pointers</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="manualSteals">Steals:</label>
+                <input type="number" id="manualSteals">
+                <div class="btn-container">
+                    <button id="updateSteals">Update Steals</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="manualBlocks">Blocks:</label>
+                <input type="number" id="manualBlocks">
+                <div class="btn-container">
+                    <button id="updateBlocks">Update Blocks</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="manualTurnovers">Turnovers:</label>
+                <input type="number" id="manualTurnovers">
+                <div class="btn-container">
+                    <button id="updateTurnovers">Update Turnovers</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="manualTotalTimeMinutes">Total Time Played (minutes):</label>
+                <input type="number" id="manualTotalTimeMinutes">
+                <label for="manualTotalTimeSeconds">Total Time Played (seconds):</label>
+                <input type="number" id="manualTotalTimeSeconds">
+                <div class="btn-container">
+                    <button id="updateTotalTime">Update Total Time Played</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate Report Section -->
+        <div class="section">
+            <h2>Generate Report</h2>
+            <div class="input-group">
+                <label for="playerName">Player Name:</label>
+                <input type="text" id="playerName">
+            </div>
+            <div class="input-group">
+                <label for="gameDate">Game Date:</label>
+                <input type="date" id="gameDate">
+            </div>
+            <div class="input-group">
+                <label for="teamsPlaying">Teams Playing:</label>
+                <input type="text" id="teamsPlaying">
+            </div>
+            <button id="generateReport">Generate Report</button>
+            <!-- Add Email Input and Send Button -->
+              <div class="input-group">
+                  <label for="email">Send Report To Email:</label>
+                  <input type="email" id="email" placeholder="Enter email address">
+                  <button id="sendEmail">Send Report</button>
+              </div>
+              <div class="report-container">
+                  <div id="loadingIndicator" class="loading-indicator">Generating report...</div>
+                  <div id="reportLink"></div>
+              </div>
+     </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const stats = {
+                    freeThrowsMade: 0,
+                    freeThrowsAttempted: 0,
+                    twoPointersMade: 0,
+                    twoPointersAttempted: 0,
+                    threePointersMade: 0,
+                    threePointersAttempted: 0,
+                    steals: 0,
+                    blocks: 0,
+                    turnovers: 0,
+                    totalPoints: 0,
+                    totalTime: 0
+                };
+
+                let timerInterval;
+                let elapsedTime = 0; // in seconds
+
+                function calculateTotalPoints() {
+                    return stats.freeThrowsMade * 1 + // Assuming each free throw is worth 1 point
+                           stats.twoPointersMade * 2 + // Each two-pointer is worth 2 points
+                           stats.threePointersMade * 3; // Each three-pointer is worth 3 points
+                }
+
+                function updateStatistics() {
+                    document.getElementById('freeThrowsStats').textContent = 
+                        `Free Throws: ${stats.freeThrowsMade} Made / ${stats.freeThrowsAttempted} Total`;
+                    document.getElementById('twoPointersStats').textContent = 
+                        `Two Pointers: ${stats.twoPointersMade} Made / ${stats.twoPointersAttempted} Total`;
+                    document.getElementById('threePointersStats').textContent = 
+                        `Three Pointers: ${stats.threePointersMade} Made / ${stats.threePointersAttempted} Total`;
+                    document.getElementById('steals').textContent = `Steals: ${stats.steals}`;
+                    document.getElementById('blocks').textContent = `Blocks: ${stats.blocks}`;
+                    document.getElementById('turnovers').textContent = `Turnovers: ${stats.turnovers}`;
+                    stats.totalPoints = calculateTotalPoints();
+                    document.getElementById('totalPoints').textContent = `Total Points: ${stats.totalPoints}`;
+                }
+
+                function updateTimerDisplay() {
+                    const minutes = Math.floor(elapsedTime / 60);
+                    const seconds = elapsedTime % 60;
+                    document.getElementById('timer').textContent = 
+                        `Total Time Played: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+
+                document.getElementById('free-throw-make').addEventListener('click', function() {
+                    stats.freeThrowsMade++;
+                    stats.freeThrowsAttempted++;
+                    updateStatistics();
+                });
+
+                document.getElementById('free-throw-miss').addEventListener('click', function() {
+                    stats.freeThrowsAttempted++;
+                    updateStatistics();
+                });
+
+                document.getElementById('two-pointer-make').addEventListener('click', function() {
+                    stats.twoPointersMade++;
+                    stats.twoPointersAttempted++;
+                    updateStatistics();
+                });
+
+                document.getElementById('two-pointer-miss').addEventListener('click', function() {
+                    stats.twoPointersAttempted++;
+                    updateStatistics();
+                });
+
+                document.getElementById('three-pointer-make').addEventListener('click', function() {
+                    stats.threePointersMade++;
+                    stats.threePointersAttempted++;
+                    updateStatistics();
+                });
+
+                document.getElementById('three-pointer-miss').addEventListener('click', function() {
+                    stats.threePointersAttempted++;
+                    updateStatistics();
+                });
+
+                document.getElementById('steal').addEventListener('click', function() {
+                    stats.steals++;
+                    updateStatistics();
+                });
+
+                document.getElementById('block').addEventListener('click', function() {
+                    stats.blocks++;
+                    updateStatistics();
+                });
+
+                document.getElementById('turnover').addEventListener('click', function() {
+                    stats.turnovers++;
+                    updateStatistics();
+                });
+
+                document.getElementById('startTimer').addEventListener('click', function() {
+                    if (!timerInterval) {
+                        timerInterval = setInterval(function() {
+                            elapsedTime++;
+                            updateTimerDisplay();
+                        }, 1000);
+                    }
+                });
+
+                document.getElementById('pauseTimer').addEventListener('click', function() {
+                    if (timerInterval) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                    }
+                });
+
+                document.getElementById('resetTimer').addEventListener('click', function() {
+                    elapsedTime = 0;
+                    updateTimerDisplay();
+                    if (timerInterval) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                    }
+                });
+
+                document.getElementById('updateFreeThrows').addEventListener('click', function() {
+                    stats.freeThrowsMade = parseInt(document.getElementById('manualFreeThrowsMade').value, 10) || 0;
+                    stats.freeThrowsAttempted = parseInt(document.getElementById('manualFreeThrowsAttempted').value, 10) || 0;
+                    updateStatistics();
+                });
+
+                document.getElementById('updateTwoPointers').addEventListener('click', function() {
+                    stats.twoPointersMade = parseInt(document.getElementById('manualTwoPointersMade').value, 10) || 0;
+                    stats.twoPointersAttempted = parseInt(document.getElementById('manualTwoPointersAttempted').value, 10) || 0;
+                    updateStatistics();
+                });
+
+                document.getElementById('updateThreePointers').addEventListener('click', function() {
+                    stats.threePointersMade = parseInt(document.getElementById('manualThreePointersMade').value, 10) || 0;
+                    stats.threePointersAttempted = parseInt(document.getElementById('manualThreePointersAttempted').value, 10) || 0;
+                    updateStatistics();
+                });
+
+                document.getElementById('updateSteals').addEventListener('click', function() {
+                    stats.steals = parseInt(document.getElementById('manualSteals').value, 10) || 0;
+                    updateStatistics();
+                });
+
+                document.getElementById('updateBlocks').addEventListener('click', function() {
+                    stats.blocks = parseInt(document.getElementById('manualBlocks').value, 10) || 0;
+                    updateStatistics();
+                });
+
+                document.getElementById('updateTurnovers').addEventListener('click', function() {
+                    stats.turnovers = parseInt(document.getElementById('manualTurnovers').value, 10) || 0;
+                    updateStatistics();
+                });
+
+                document.getElementById('updateTotalTime').addEventListener('click', function() {
+                    const minutes = parseInt(document.getElementById('manualTotalTimeMinutes').value, 10) || 0;
+                    const seconds = parseInt(document.getElementById('manualTotalTimeSeconds').value, 10) || 0;
+                    elapsedTime = (minutes * 60) + seconds;
+                    stats.totalTime = elapsedTime / 60; // convert to minutes
+                    updateTimerDisplay();
+                });
+
+                document.getElementById('generateReport').addEventListener('click', function() {
+                    const playerName = document.getElementById('playerName').value;
+                    const gameDate = document.getElementById('gameDate').value;
+                    const teamsPlaying = document.getElementById('teamsPlaying').value;
+
+                    const loadingIndicator = document.getElementById('loadingIndicator');
+                    const reportLink = document.getElementById('reportLink');
+                    loadingIndicator.style.display = 'block';
+
+                    const formData = new FormData();
+                    formData.append('player_name', playerName);
+                    formData.append('game_date', gameDate);
+                    formData.append('teams_playing', teamsPlaying);
+                    formData.append('free_throws_made', stats.freeThrowsMade);
+                    formData.append('free_throws_attempted', stats.freeThrowsAttempted);
+                    formData.append('two_pointers_made', stats.twoPointersMade);
+                    formData.append('two_pointers_attempted', stats.twoPointersAttempted);
+                    formData.append('three_pointers_made', stats.threePointersMade);
+                    formData.append('three_pointers_attempted', stats.threePointersAttempted);
+                    formData.append('steals', stats.steals);
+                    formData.append('blocks', stats.blocks);
+                    formData.append('turnovers', stats.turnovers);
+                    formData.append('total_time', stats.totalTime);
+                    formData.append('total_points', stats.totalPoints);
+
+                    fetch('/generate_report', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.blob())
+                    .then(blob => {
+                        loadingIndicator.style.display = 'none';
+                        const url = window.URL.createObjectURL(blob);
+                        reportLink.innerHTML = `<a href="${url}" download="report.pdf">Download Report</a>`;
+                    })
+                    .catch(error => {
+                        loadingIndicator.style.display = 'none';
+                        reportLink.textContent = 'Error generating report.';
+                        console.error('Error:', error);
+                    });
+                });
+                document.getElementById('sendEmail').addEventListener('click', function() {
+                    const email = document.getElementById('email').value;
+                    const playerName = document.getElementById('playerName').value;
+                    const gameDate = document.getElementById('gameDate').value;
+                    const teamsPlaying = document.getElementById('teamsPlaying').value;
+
+                    const loadingIndicator = document.getElementById('loadingIndicator');
+                    const reportLink = document.getElementById('reportLink');
+                    loadingIndicator.style.display = 'block';
+
+                    const formData = new FormData();
+                    formData.append('player_name', playerName);
+                    formData.append('game_date', gameDate);
+                    formData.append('teams_playing', teamsPlaying);
+                    formData.append('free_throws_made', stats.freeThrowsMade);
+                    formData.append('free_throws_attempted', stats.freeThrowsAttempted);
+                    formData.append('two_pointers_made', stats.twoPointersMade);
+                    formData.append('two_pointers_attempted', stats.twoPointersAttempted);
+                    formData.append('three_pointers_made', stats.threePointersMade);
+                    formData.append('three_pointers_attempted', stats.threePointersAttempted);
+                    formData.append('steals', stats.steals);
+                    formData.append('blocks', stats.blocks);
+                    formData.append('turnovers', stats.turnovers);
+                    formData.append('total_time', stats.totalTime);
+                    formData.append('total_points', stats.totalPoints);
+                    formData.append('email', email);
+
+                    fetch('/send_email', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.text())
+                    .then(text => {
+                        loadingIndicator.style.display = 'none';
+                        reportLink.textContent = text;
+                    })
+                    .catch(error => {
+                        loadingIndicator.style.display = 'none';
+                        reportLink.textContent = 'Error sending email.';
+                        console.error('Error:', error);
+                    });
+                });
+
+
+            });
+        </script>
+    </div>
+</body>
+</html>
