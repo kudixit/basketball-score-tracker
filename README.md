@@ -1,4 +1,4 @@
-Basketball Score Tracker
+Basketball Score Tracker//
 A web app that helps players and coaches track basketball game stats in real-time. Record all player stats during the game — points, assists, rebounds, steals, blocks, fouls, and more — then email a detailed game report once the match ends.
 
 Features
