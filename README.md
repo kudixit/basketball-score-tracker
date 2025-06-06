@@ -1,16 +1,13 @@
-Basketball Score Tracker//
+**Basketball Score Tracker //**  
 
-A web app that helps players and coaches track basketball game stats in real-time. Record all player stats during the game — points, assists, rebounds, steals, blocks, fouls, and more — then email a detailed game report once the match ends.
-<img width="767" alt="Screen Shot 2025-04-07 at 8 08 24 PM" src="https://github.com/user-attachments/assets/a80de6de-d8ad-44b4-955d-289d502a07cb" />
-<img width="806" alt="Screen Shot 2025-04-07 at 8 10 49 PM" src="https://github.com/user-attachments/assets/dfe02146-f523-49a7-8a3d-0991a08dad3e" />
-Features
-Track all key basketball stats for individual players and the whole team
+A web app that helps players and coaches track basketball game stats in real-time. Record all player stats during the game — points, assists, rebounds, steals, blocks, fouls, and more — then email a detailed game report once the match ends.  
 
-Real-time stat updates during games
+<img width="1054" alt="Screen Shot 2025-06-06 at 11 40 34 AM" src="https://github.com/user-attachments/assets/b1d8013b-bae3-4119-9cf6-56949730869b" />
+<img width="838" alt="Screen Shot 2025-06-06 at 11 40 43 AM" src="https://github.com/user-attachments/assets/cecb0109-2c11-490c-991d-a30a5f4fec37" />
 
-Generate a comprehensive game report
-
-Send the report directly via email
-![Uploading Screen Shot 2025-04-07 at 8.10.49 PM.png…]()
-
-Simple, user-friendly interface for quick data entry
+**Features //**  
+- Track all key basketball stats for individual players and the whole team  
+- Real-time stat updates during games  
+- Generate a comprehensive game report  
+- Send the report directly via email  
+- Simple, user-friendly interface for quick data entry  
